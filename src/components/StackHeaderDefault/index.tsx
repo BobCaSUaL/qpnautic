@@ -1,0 +1,1 @@
+export { StackHeaderDefault as default } from './StackHeaderDefault'
