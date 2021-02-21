@@ -1,21 +1,14 @@
-import React from 'react';
-import { Content, Button, Text } from 'native-base';
+import React, { useCallback } from 'react';
 import { ScreenProps } from '../types';
+import App from '../../containers/App';
 
-export const LandingScreen = (props: ScreenProps) => (
-  <Content>
-    <Text>
-      This is Content Section
-    </Text>
-    <Text>Route = {props.route.name}</Text>
-    <Button
-      full
-      rounded
-      primary
-      style={{ marginTop: 10 }}
-      onPress={() => props.navigation.navigate("Home")}
-    >
-      <Text>Goto Home</Text>
-    </Button>
-  </Content>
-);
+export const LandingScreen = (props: ScreenProps) => {
+  return (
+    <App
+      route={props.route}
+      onGoToHomePress={useCallback(
+        () => props.navigation.navigate("Home"),
+        [props.navigation]
+      )} />
+  );
+};

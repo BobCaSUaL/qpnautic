@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import LandingScreen from './screens/LandingScreen';
 
-const HomeNavigator = () => (
+const App = () => (
   <Container>
     <NavigationContainer>
       <LandingScreen />
@@ -20,4 +20,4 @@ const HomeNavigator = () => (
 );
 
 
-export default HomeNavigator
+export default App
