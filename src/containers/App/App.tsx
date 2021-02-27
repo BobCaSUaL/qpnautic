@@ -1,36 +1,18 @@
 import React from 'react';
-import { Content, Button, Text } from 'native-base';
-import { Route } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { mainSaga } from './saga';
 import { AppContext, initialState, reducer } from './reducers';
 import useSagaReducer from 'use-saga-reducer';
+import { ContainerProps } from '../types';
 
-declare type Props = {
-  route: Route<string>,
-  onGoToHomePress: () => void,
-}
-
-export const App = (props: Props) => {
-  const [appState, appDispatch] = useSagaReducer(mainSaga, reducer, initialState);
+export const App = (props: ContainerProps) => {
+  const navigation = useNavigation()
+  const [appState, appDispatch] = useSagaReducer(mainSaga, reducer, initialState, undefined, {
+    context: { navigation }});
+  
   return (
     <AppContext.Provider value={{ appState, appDispatch }}>
-      <Content>
-        <Text>
-          This is Content Section
-        </Text>
-        <Text>Route = {props.route.name}</Text>
-        {appState.isAppLoaded && (
-          <Button
-            full
-            rounded
-            primary
-            style={{ marginTop: 10 }}
-            onPress={props.onGoToHomePress}
-          >
-            <Text>Goto Home</Text>
-          </Button>
-        )}
-      </Content>
+      {appState.isAppLoaded && props.navigator}
     </AppContext.Provider>
   )
 };

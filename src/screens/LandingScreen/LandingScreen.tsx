@@ -1,14 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useContext } from 'react';
+import { NavigationContext } from 'react-navigation';
+import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
+import HeaderDefault from '../../components/StackHeaderDefault';
+import HomeScreen from '../HomeScreen';
 import { ScreenProps } from '../types';
-import App from '../../containers/App';
+import Landing from '../../containers/Landing';
 
 export const LandingScreen = (props: ScreenProps) => {
   return (
-    <App
-      route={props.route}
-      onGoToHomePress={useCallback(
-        () => props.navigation.navigate("Home"),
-        [props.navigation]
-      )} />
+    <Landing />
   );
 };
