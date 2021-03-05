@@ -1,32 +1,27 @@
 import React, { useCallback } from 'react';
 import { Content, Button, Text } from 'native-base';
 import { ScreenProps } from '../types';
-import { ContainerProps } from '../../containers/types';
+import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 
-export const HomeScreen = (props: ContainerProps) => {
-  const handleGoToHomeButtonPress = useCallback(
-    () => props.navigation?.navigate("Home"),
-    [props.navigation?.navigate]
-  )
+const Stack = createStackNavigator();
 
+const baseNavigatorOptions: StackNavigationOptions = {
+  headerShown: true,
+}
+
+export const HomeScreen = (props: ScreenProps) => {
   return (
-  <Content>
-    <Text>
-      This is Content Section
-    </Text>
-    <Content>
-        <Text>
-          This is Content Section
-        </Text>
-        <Button
-          full
-          rounded
-          primary
-          style={{ marginTop: 10 }}
-          onPress={handleGoToHomeButtonPress}
-        >
-          <Text>Goto Home</Text>
-        </Button>
-      </Content>
-  </Content>
-)};
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen
+        name="Home"
+        options={baseNavigatorOptions}
+        getComponent={() => require('../../containers/Home').default}
+      />
+      <Stack.Screen
+        name="Quiz"
+        options={baseNavigatorOptions}
+        getComponent={() => require('../HomeScreen').default}
+      />
+    </Stack.Navigator>
+  )
+};
