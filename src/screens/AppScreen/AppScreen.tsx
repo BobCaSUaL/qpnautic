@@ -4,7 +4,6 @@ import { createStackNavigator, StackNavigationOptions } from '@react-navigation/
 import HeaderDefault from '../../components/StackHeaderDefault';
 import LandingScreen from '../LandingScreen';
 import { AppScreenProps } from '../types';
-import App from '../../containers/App';
 
 
 const Stack = createStackNavigator();
