@@ -4,7 +4,7 @@ import { StyleProp, ViewStyle } from 'react-native';
 
 
 interface Props<P> {
-  items: P[][]
+  items: Array<Array<P & { key?: string }> & { key?: string }>
   component: React.ComponentType<P>
   style?: StyleProp<ViewStyle>
   colStyle?: StyleProp<ViewStyle>
@@ -21,10 +21,10 @@ export function MapGrid<P>(props: Props<P>) {
   } = props;
   return (
     <Grid {...restProps}>
-      {items.map((column) => (
-        <Col style={colStyle}>
-          {column.map((row) => (
-            <Row style={rowStyle}>
+      {items.map((column, index) => (
+        <Col key={column.key || index} style={colStyle}>
+          {column.map((row, index) => (
+            <Row key={row.key || index} style={rowStyle}>
               <Component {...row} />
             </Row>
           ))}
