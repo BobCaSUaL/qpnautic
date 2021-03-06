@@ -1,4 +1,4 @@
-import {takeLatest, cancelled, delay, put} from 'redux-saga/effects'
+import { takeLatest, cancelled, delay, put } from 'redux-saga/effects';
 import { Action } from '../../utils/actions';
 import { appLoadingCancelled, appLoadingFailed, appLoadingRequested, appLoadingSucceeded, APP_LOADING_REQUESTED } from './actions'
 

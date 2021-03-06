@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import { NavigationContext } from 'react-navigation';
+import React from 'react';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
-import HeaderDefault from '../../components/StackHeaderDefault';
 import LandingScreen from '../LandingScreen';
 import { AppScreenProps } from '../types';
+import HomeScreen from '../HomeScreen';
+import App from '../../containers/App';
 
 
 const Stack = createStackNavigator();
@@ -14,17 +14,15 @@ const baseNavigatorOptions: StackNavigationOptions = {
 
 export const AppScreen = (props: AppScreenProps) => {
   return (
-    <Stack.Navigator initialRouteName="Landing">
+    <Stack.Navigator initialRouteName="App">
       <Stack.Screen
-        name="Landing"
+        name="App"
         options={baseNavigatorOptions}
-        component={LandingScreen}
-      />
-      <Stack.Screen
-        name="Home"
-        options={baseNavigatorOptions}
-        getComponent={() => require('../HomeScreen').default}
-      />
+      >{(props) => (
+        <App>
+          <HomeScreen {...props} />
+        </App>
+      )}</Stack.Screen>
     </Stack.Navigator>
   );
 };

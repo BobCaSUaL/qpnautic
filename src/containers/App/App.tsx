@@ -5,14 +5,18 @@ import { AppContext, initialState, reducer } from './reducers';
 import useSagaReducer from 'use-saga-reducer';
 import { ContainerProps } from '../types';
 
-export const App = (props: ContainerProps) => {
+interface Props {
+  children: JSX.Element | JSX.Element[]
+}
+
+export const App = (props: ContainerProps & Props) => {
   const navigation = useNavigation()
   const [appState, appDispatch] = useSagaReducer(mainSaga, reducer, initialState, undefined, {
     context: { navigation }});
   
   return (
     <AppContext.Provider value={{ appState, appDispatch }}>
-      {appState.isAppLoaded && props.navigator}
+      {appState.isAppLoaded && props.children}
     </AppContext.Provider>
   )
 };

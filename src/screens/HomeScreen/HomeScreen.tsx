@@ -1,5 +1,4 @@
-import React, { useCallback } from 'react';
-import { Content, Button, Text } from 'native-base';
+import React from 'react';
 import { ScreenProps } from '../types';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 
