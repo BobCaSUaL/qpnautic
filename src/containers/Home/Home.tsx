@@ -25,7 +25,7 @@ const useStylesheet = () => {
   }), [windowWidth])
 }
 
-export const Home = (props: ContainerProps) => {
+export const Home = (props: ContainerProps<{}>) => {
   const navigation = useNavigation();
 
   const style = useStylesheet()
@@ -39,21 +39,25 @@ export const Home = (props: ContainerProps) => {
             iconStyle: style.gridItemIcon,
             iconName: 'layers',
             labelText: 'Esercizio',
+            helperDescriptor: { helperId: 'Exercise' },
             onPress: () => navigation.navigate('Exercise'),
           }, {
             iconStyle: style.gridItemIcon,
             iconName: 'map',
             labelText: 'Teoria',
+            helperDescriptor: { helperId: 'Theory' },
             onPress: () => navigation.navigate('Theory'),
           }], [{
             iconStyle: style.gridItemIcon,
             iconName: 'list',
             labelText: 'Quiz Esame',
+            helperDescriptor: { helperId: 'Quiz' },
             onPress: () => navigation.navigate('Quiz'),
           }, {
             iconStyle: style.gridItemIcon,
             iconName: 'settings',
             labelText: 'Impostazioni',
+            helperDescriptor: { helperId: 'Settings' },
             onPress: () => navigation.navigate('Settings'),
           }]
         ], [navigation])}

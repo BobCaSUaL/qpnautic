@@ -34,7 +34,7 @@ export function* appHelperShowSaga(action: Action<TouchableHelperDescriptorI<{}>
     yield put(appHelperPopulate(null, action.payload))
     navigation.navigate({
       name: 'InlineHelper',
-      params: action.payload,
+      params: { helperDescriptor: action.payload },
     });
     yield take(APP_HELPER_DISMISS);
     navigation.goBack();
