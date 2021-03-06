@@ -31,7 +31,7 @@ const useStylesheet = () => {
   }), [])
 }
 
-export const TouchableIdol = (props: Props) => {
+export const TouchableIdol = React.memo((props: Props) => {
   const style = useStylesheet()
   return (
     <Touchable onPress={props.onPress}>
@@ -44,4 +44,4 @@ export const TouchableIdol = (props: Props) => {
       </View>
     </Touchable>
   );
-}
+})

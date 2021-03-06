@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
-import { Col, Container, Content, Grid, Icon, Row, Text } from 'native-base';
+import { Content } from 'native-base';
 import { ContainerProps } from '../types';
-import { Dimensions, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import Touchable from '../../components/Touchable';
+import { Dimensions, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MapGrid } from '../../components/MapGrid/MapGrid';
 import { TouchableIdol } from '../../components/TouchableIdol/TouchableIdol';
