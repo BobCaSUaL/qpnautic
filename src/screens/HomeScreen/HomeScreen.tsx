@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScreenProps } from '../types';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
+import InlineHelper from '../../containers/InlineHelper';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,15 @@ export const HomeScreen = (props: ScreenProps) => {
         name="Quiz"
         options={baseNavigatorOptions}
         getComponent={() => require('../HomeScreen').default}
+      />
+      <Stack.Screen
+        name="InlineHelper"
+        options={{
+          ...baseNavigatorOptions,
+          headerShown: false,
+          cardStyle: { backgroundColor: "transparent" }
+        }}
+        component={InlineHelper}
       />
     </Stack.Navigator>
   )

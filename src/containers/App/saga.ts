@@ -1,6 +1,18 @@
-import { takeLatest, cancelled, delay, put } from 'redux-saga/effects';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { takeLatest, takeLeading, cancelled, delay, put, take, getContext } from 'redux-saga/effects';
+import { TouchableHelperDescriptorI } from '../../components/TouchableHelper';
 import { Action } from '../../utils/actions';
-import { appLoadingCancelled, appLoadingFailed, appLoadingRequested, appLoadingSucceeded, APP_LOADING_REQUESTED } from './actions'
+import {
+  appLoadingCancelled,
+  appLoadingFailed,
+  appLoadingRequested,
+  appLoadingSucceeded,
+  appHelperDismiss,
+  appHelperPopulate,
+  APP_LOADING_REQUESTED,
+  APP_HELPER_SHOW,
+  APP_HELPER_DISMISS,
+  APP_HELPER_POPULATE } from './actions'
 
 export function* appLoadingSaga(action: Action<null, null>) {
   try {
@@ -15,7 +27,30 @@ export function* appLoadingSaga(action: Action<null, null>) {
   }
 }
 
+export function* appHelperShowSaga(action: Action<TouchableHelperDescriptorI<{}>, null>) {
+  try {
+    const navigation: NavigationProp<ParamListBase> = yield getContext('navigation');
+
+    yield put(appHelperPopulate(null, action.payload))
+    navigation.navigate({
+      name: 'InlineHelper',
+      params: action.payload,
+    });
+    yield take(APP_HELPER_DISMISS);
+    navigation.goBack();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    if (yield cancelled()) {
+      const reason = 'appHelperShowSaga has cancelled';
+      yield put(appHelperDismiss({ reason }, null));
+      console.warn(reason);
+    }
+  }
+}
+
 export function* mainSaga() {
   yield takeLatest(APP_LOADING_REQUESTED, appLoadingSaga)
+  yield takeLeading(APP_HELPER_SHOW, appHelperShowSaga)
   yield put(appLoadingRequested());
 }

@@ -2,6 +2,7 @@ import { Icon } from 'native-base'
 import React, { useMemo } from 'react'
 import { Dimensions, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
 import { Touchable } from '../Touchable/Touchable'
+import { TouchableHelper } from '../TouchableHelper/TouchableHelper'
 
 interface Props {
   iconName: string
@@ -39,7 +40,7 @@ export const TouchableIdol = React.memo((props: Props) => {
         <Icon name={props.iconName} style={[style.icon, props.iconStyle]} />
         <View style={[style.label, props.labelContainerStyle]}>
           <Text>{props.labelText}</Text>
-          <Icon name="help-circle"/>
+          <TouchableHelper item={props} />
         </View>
       </View>
     </Touchable>
