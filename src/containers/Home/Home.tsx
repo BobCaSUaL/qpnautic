@@ -1,32 +1,65 @@
-import React, { useEffect } from 'react';
-import { Button, Content, Text } from 'native-base';
+import React, { useMemo } from 'react';
+import { Col, Container, Content, Grid, Icon, Row, Text } from 'native-base';
 import { ContainerProps } from '../types';
+import { Dimensions, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import Touchable from '../../components/Touchable';
 import { useNavigation } from '@react-navigation/native';
+import { MapGrid } from '../../components/MapGrid/MapGrid';
+import { TouchableIdol } from '../../components/TouchableIdol/TouchableIdol';
+
+const useStylesheet = () => {
+  const { width: windowWidth } = Dimensions.get('window')
+  return useMemo(() => StyleSheet.create({
+    contentContainer: {
+      flex: 1,
+    },
+    grid: {
+      alignItems: 'center',
+    },
+    gridRow: {
+      width: windowWidth / 2,
+      height: windowWidth / 2,
+    },
+    gridItemIcon: {
+      fontSize: windowWidth / 4,
+    }
+  }), [windowWidth])
+}
 
 export const Home = (props: ContainerProps) => {
   const navigation = useNavigation();
-  useEffect(() => {
-    setTimeout(() => navigation?.navigate("Home"), 1000)
-  }, [navigation])
+
+  const style = useStylesheet()
   return (
-    <Content>
-    <Text>
-      This is Content Section
-    </Text>
-    <Content>
-        <Text>
-          This is Content Section
-        </Text>
-        <Button
-          full
-          rounded
-          primary
-          style={{ marginTop: 10 }}
-          // onPress={handleGoToHomeButtonPress}
-        >
-          <Text>Goto Home</Text>
-        </Button>
-      </Content>
-  </Content>
+    <Content contentContainerStyle={style.contentContainer}>
+      <MapGrid<Parameters<typeof TouchableIdol>[0]>
+        style={style.grid}
+        rowStyle={style.gridRow}
+        items={useMemo(() => [
+          [{
+            iconStyle: style.gridItemIcon,
+            iconName: 'layers',
+            labelText: 'Esercizio',
+            onPress: () => navigation.navigate('Exercize'),
+          }, {
+            iconStyle: style.gridItemIcon,
+            iconName: 'map',
+            labelText: 'Teoria',
+            onPress: () => navigation.navigate('Teory'),
+          }], [{
+            iconStyle: style.gridItemIcon,
+            iconName: 'list',
+            labelText: 'Quiz Esame',
+            onPress: () => navigation.navigate('Quiz'),
+          }, {
+            iconStyle: style.gridItemIcon,
+            iconName: 'settings',
+            labelText: 'Impostazioni',
+            onPress: () => navigation.navigate('Settings'),
+          }]
+        ], [navigation])}
+        component={TouchableIdol}
+      />
+    </Content>
   )
 };
