@@ -39,12 +39,12 @@ export const Home = (props: ContainerProps) => {
             iconStyle: style.gridItemIcon,
             iconName: 'layers',
             labelText: 'Esercizio',
-            onPress: () => navigation.navigate('Exercize'),
+            onPress: () => navigation.navigate('Exercise'),
           }, {
             iconStyle: style.gridItemIcon,
             iconName: 'map',
             labelText: 'Teoria',
-            onPress: () => navigation.navigate('Teory'),
+            onPress: () => navigation.navigate('Theory'),
           }], [{
             iconStyle: style.gridItemIcon,
             iconName: 'list',

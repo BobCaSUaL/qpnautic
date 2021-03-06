@@ -18,18 +18,24 @@ export const HomeScreen = (props: ScreenProps) => {
         getComponent={() => require('../../containers/Home').default}
       />
       <Stack.Screen
-        name="Quiz"
+        name="Exercise"
         options={baseNavigatorOptions}
-        getComponent={() => require('../HomeScreen').default}
+        getComponent={() => require('../QuizScreen').default}
       />
       <Stack.Screen
-        name="InlineHelper"
-        options={{
-          ...baseNavigatorOptions,
-          headerShown: false,
-          cardStyle: { backgroundColor: "transparent" }
-        }}
-        component={InlineHelper}
+        name="Theory"
+        options={baseNavigatorOptions}
+        getComponent={() => require('../TheoryScreen').default}
+      />
+      <Stack.Screen
+        name="Quiz"
+        options={baseNavigatorOptions}
+        getComponent={() => require('../QuizScreen').default}
+      />
+      <Stack.Screen
+        name="Settings"
+        options={baseNavigatorOptions}
+        getComponent={() => require('../SettingsScreen').default}
       />
     </Stack.Navigator>
   )

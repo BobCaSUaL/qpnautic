@@ -1,12 +1,13 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
-import LandingScreen from '../LandingScreen';
 import { AppScreenProps } from '../types';
 import HomeScreen from '../HomeScreen';
+import InlineHelper from '../../containers/InlineHelper';
 import App from '../../containers/App';
 
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
+const MainStack = createStackNavigator();
 
 const baseNavigatorOptions: StackNavigationOptions = {
   headerShown: false
@@ -14,15 +15,30 @@ const baseNavigatorOptions: StackNavigationOptions = {
 
 export const AppScreen = (props: AppScreenProps) => {
   return (
-    <Stack.Navigator initialRouteName="App">
-      <Stack.Screen
+    <RootStack.Navigator initialRouteName="App">
+      <RootStack.Screen
         name="App"
         options={baseNavigatorOptions}
       >{(props) => (
-        <App>
-          <HomeScreen {...props} />
+        <App {...props}>
+          <MainStack.Navigator initialRouteName="Home" mode="modal">
+            <MainStack.Screen
+              name="Home"
+              options={baseNavigatorOptions}
+              component={HomeScreen}
+            />
+            <MainStack.Screen
+              name="InlineHelper"
+              options={{
+                ...baseNavigatorOptions,
+                headerShown: false,
+                cardStyle: { backgroundColor: "transparent" },
+              }}
+              component={InlineHelper}
+            />
+          </MainStack.Navigator>
         </App>
-      )}</Stack.Screen>
-    </Stack.Navigator>
+      )}</RootStack.Screen>
+    </RootStack.Navigator>
   );
 };
