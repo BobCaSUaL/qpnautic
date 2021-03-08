@@ -5,7 +5,7 @@ export declare type AppScreenProps = {
   navigation?: NavigationProp<ParamListBase>,
 }
 
-export declare type ScreenProps = {
-  route: Route<string>,
+export declare type ScreenProps<R extends {}> = {
+  route: Route<string, R | undefined>,
   navigation: NavigationProp<ParamListBase>,
 }

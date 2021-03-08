@@ -2,8 +2,8 @@ import React from 'react';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { AppScreenProps } from '../types';
 import HomeScreen from '../HomeScreen';
-import InlineHelper from '../../containers/InlineHelper';
 import App from '../../containers/App';
+import InlineHelperScreen from '../InlineHelperScreen';
 
 
 const RootStack = createStackNavigator();
@@ -36,7 +36,7 @@ export const AppScreen = (props: AppScreenProps) => {
             <MainStack.Screen
               name="InlineHelper"
               options={modalNavigatorOptions}
-              component={InlineHelper}
+              component={InlineHelperScreen}
             />
           </MainStack.Navigator>
         </App>

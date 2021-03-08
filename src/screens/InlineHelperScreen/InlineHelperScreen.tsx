@@ -1,13 +1,10 @@
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
-import { BackHandler } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useMemo } from 'react';
 import Markdown from 'react-native-markdown-display';
 import { TouchableHelperDescriptorI } from '../../components/TouchableHelper';
-import { AppContext } from '../App';
-import { ContainerProps } from '../types';
+import { ScreenProps } from '../types';
 import { ModalContainerBlur } from '../../components/ModalContainerBlur';
 
-type Props = ContainerProps<{
+type Props = ScreenProps<{
   helperDescriptor: TouchableHelperDescriptorI<{}>
 }>
 
@@ -50,7 +47,7 @@ const helperById: {[key in string]: { title: string, descriptionMD: string }} = 
 }
 
 
-export const InlineHelper = (props: Props) => {
+export const InlineHelperScreen = (props: Props) => {
   const helperDescriptor: TouchableHelperDescriptorI<{}> | undefined
     = props.route?.params?.helperDescriptor;
 
