@@ -13,6 +13,12 @@ const baseNavigatorOptions: StackNavigationOptions = {
   headerShown: false
 }
 
+const modalNavigatorOptions: StackNavigationOptions = {
+  ...baseNavigatorOptions,
+  gestureEnabled: true,
+  cardStyle: { backgroundColor: "transparent" }
+}
+
 export const AppScreen = (props: AppScreenProps) => {
   return (
     <RootStack.Navigator initialRouteName="App">
@@ -29,11 +35,7 @@ export const AppScreen = (props: AppScreenProps) => {
             />
             <MainStack.Screen
               name="InlineHelper"
-              options={{
-                ...baseNavigatorOptions,
-                headerShown: false,
-                cardStyle: { backgroundColor: "transparent" },
-              }}
+              options={modalNavigatorOptions}
               component={InlineHelper}
             />
           </MainStack.Navigator>

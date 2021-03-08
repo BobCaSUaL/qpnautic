@@ -7,12 +7,9 @@ import {
   appLoadingFailed,
   appLoadingRequested,
   appLoadingSucceeded,
-  appHelperDismiss,
-  appHelperPopulate,
   APP_LOADING_REQUESTED,
   APP_HELPER_SHOW,
-  APP_HELPER_DISMISS,
-  APP_HELPER_POPULATE } from './actions'
+} from './actions'
 
 export function* appLoadingSaga(action: Action<null, null>) {
   try {
@@ -31,21 +28,13 @@ export function* appHelperShowSaga(action: Action<TouchableHelperDescriptorI<{}>
   try {
     const navigation: NavigationProp<ParamListBase> = yield getContext('navigation');
 
-    yield put(appHelperPopulate(null, action.payload))
     navigation.navigate({
       name: 'InlineHelper',
+      key: 'inline-helper',
       params: { helperDescriptor: action.payload },
     });
-    yield take(APP_HELPER_DISMISS);
-    navigation.goBack();
   } catch (error) {
     console.error(error);
-  } finally {
-    if (yield cancelled()) {
-      const reason = 'appHelperShowSaga has cancelled';
-      yield put(appHelperDismiss({ reason }, null));
-      console.warn(reason);
-    }
   }
 }
 
