@@ -2,12 +2,12 @@ import React from 'react';
 import { Container, Footer, FooterTab, Button, Text } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 
-import AppScreen from './screens/AppScreen';
+import AppScreenNavigator from './screens/AppScreenNavigator';
 
 const App = () => (
   <Container>
     <NavigationContainer>
-      <AppScreen />
+      <AppScreenNavigator />
     </NavigationContainer>
     <Footer>
       <FooterTab>

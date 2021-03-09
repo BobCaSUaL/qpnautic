@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { AppScreenProps } from '../types';
-import HomeScreen from '../HomeScreen';
+import HomeScreenNavigator from '../HomeScreenNavigator';
 import App from '../../containers/App';
 import InlineHelperScreen from '../InlineHelperScreen';
 
@@ -19,7 +19,7 @@ const modalNavigatorOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: "transparent" }
 }
 
-export const AppScreen = (props: AppScreenProps) => {
+export const AppScreenNavigator = (props: AppScreenProps) => {
   return (
     <RootStack.Navigator initialRouteName="App">
       <RootStack.Screen
@@ -31,7 +31,7 @@ export const AppScreen = (props: AppScreenProps) => {
             <MainStack.Screen
               name="Home"
               options={baseNavigatorOptions}
-              component={HomeScreen}
+              component={HomeScreenNavigator}
             />
             <MainStack.Screen
               name="InlineHelper"

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScreenProps } from '../types';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
-import InlineHelper from '../../containers/InlineHelper';
 
 const Stack = createStackNavigator();
 
@@ -9,7 +8,7 @@ const baseNavigatorOptions: StackNavigationOptions = {
   headerShown: true,
 }
 
-export const HomeScreen = (props: ScreenProps) => {
+export const HomeScreenNavigator = (props: ScreenProps<{}>) => {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
@@ -20,7 +19,7 @@ export const HomeScreen = (props: ScreenProps) => {
       <Stack.Screen
         name="Exercise"
         options={baseNavigatorOptions}
-        getComponent={() => require('../QuizScreen').default}
+        getComponent={() => require('../QuizScreenNavigator').default}
       />
       <Stack.Screen
         name="Theory"
@@ -30,7 +29,7 @@ export const HomeScreen = (props: ScreenProps) => {
       <Stack.Screen
         name="Quiz"
         options={baseNavigatorOptions}
-        getComponent={() => require('../QuizScreen').default}
+        getComponent={() => require('../QuizScreenNavigator').default}
       />
       <Stack.Screen
         name="Settings"
