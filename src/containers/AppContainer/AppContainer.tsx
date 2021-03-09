@@ -11,7 +11,7 @@ interface Props {
   children: JSX.Element | JSX.Element[]
 }
 
-export const App = (props: ContainerProps<{}> & Props) => {
+export const AppContainer = (props: ContainerProps<{}> & Props) => {
   const navigation = useNavigation()
   const [appState, appDispatch] = useSagaReducer(mainSaga, reducer, initialState, undefined, {
     context: { navigation }});

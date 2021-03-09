@@ -2,7 +2,7 @@ import React from 'react';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { AppScreenProps } from '../types';
 import HomeScreenNavigator from '../HomeScreenNavigator';
-import App from '../../containers/App';
+import AppContainer from '../../containers/AppContainer';
 import InlineHelperScreen from '../InlineHelperScreen';
 
 
@@ -26,7 +26,7 @@ export const AppScreenNavigator = (props: AppScreenProps) => {
         name="App"
         options={baseNavigatorOptions}
       >{(props) => (
-        <App {...props}>
+        <AppContainer {...props}>
           <MainStack.Navigator initialRouteName="Home" mode="modal">
             <MainStack.Screen
               name="Home"
@@ -39,7 +39,7 @@ export const AppScreenNavigator = (props: AppScreenProps) => {
               component={InlineHelperScreen}
             />
           </MainStack.Navigator>
-        </App>
+        </AppContainer>
       )}</RootStack.Screen>
     </RootStack.Navigator>
   );
