@@ -5,9 +5,11 @@ import {
   TouchableNativeFeedback,
   TouchableHighlight,
   TouchableOpacity,
+  BackgroundPropType,
 } from 'react-native';
 
 interface Props {
+  rippleBackgroundAndroid?: BackgroundPropType
   onPress?: ((event: GestureResponderEvent) => void) & (() => void)
   children: ReactNode | ReactNode[]
 }
@@ -15,7 +17,10 @@ interface Props {
 export const Touchable = (props: Props) => {
   if (Platform.OS === 'android') {
     return (
-      <TouchableNativeFeedback onPress={props.onPress}>
+      <TouchableNativeFeedback
+        onPress={props.onPress}
+        background={props.rippleBackgroundAndroid}
+      >
         {props.children}
       </TouchableNativeFeedback>
     )

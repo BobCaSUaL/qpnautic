@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react';
 import { Content } from 'native-base';
 import { ContainerProps } from '../types';
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MapGrid } from '../../components/MapGrid/MapGrid';
 import { TouchableIdol } from '../../components/TouchableIdol/TouchableIdol';
+import commonStyle from '../../components/commonStyle';
 
 const useStylesheet = () => {
   const { width: windowWidth } = Dimensions.get('window')

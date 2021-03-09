@@ -1,46 +1,33 @@
 import { Icon } from 'native-base'
-import React, { useMemo } from 'react'
-import { Dimensions, StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import React from 'react'
+import { Text, View } from 'react-native'
 import { Touchable } from '../Touchable/Touchable'
 import { TouchableHelperDescriptorI } from '../TouchableHelper'
 import { TouchableHelper } from '../TouchableHelper/TouchableHelper'
+import { ExtendingStyleProps, useStylesheet } from './styles'
 
-interface Props {
+interface Props extends ExtendingStyleProps{
   iconName: string
   labelText: string
   onPress: () => void
-  style?: StyleProp<ViewStyle>
-  iconStyle?: StyleProp<TextStyle>
-  labelContainerStyle?: StyleProp<ViewStyle>
   helperDescriptor: TouchableHelperDescriptorI<{}>
 }
 
-const useStylesheet = () => {
-  return useMemo(() => StyleSheet.create({
-    container: {
-      width: '100%',
-      height: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-    },
-    label: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    icon: {
-      fontSize: 100,
-    },
-  }), [])
+function lastOf<T>(elem: T | Array<T>): T {
+  if (Array.isArray(elem)) return elem[elem.length - 1];
+  return elem;
 }
 
 export const TouchableIdol = React.memo((props: Props) => {
-  const style = useStylesheet()
+  const styles = useStylesheet(props)
   return (
-    <Touchable onPress={props.onPress}>
-      <View style={[style.container, props.style]}>
-        <Icon name={props.iconName} style={[style.icon, props.iconStyle]} />
-        <View style={[style.label, props.labelContainerStyle]}>
+    <Touchable
+      rippleBackgroundAndroid={lastOf(styles.rippleBackgroundAndroid)}
+      onPress={props.onPress}
+    >
+      <View style={styles.container}>
+        <Icon name={props.iconName} style={styles.icon} />
+        <View style={styles.labelContainer}>
           <Text>{props.labelText}</Text>
           <TouchableHelper item={props.helperDescriptor} />
         </View>
