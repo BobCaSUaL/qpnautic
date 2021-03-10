@@ -1,8 +1,4 @@
-import { useMemo } from "react"
 import { StyleProp, StyleSheet, TextStyle, TouchableNativeFeedback, ViewStyle } from "react-native"
-import { mergeStylesFromProp, PropStylesI } from "../../utils/styles"
-
-export type ExtendingStyleProps = PropStylesI<ReturnType<typeof getStyle>> & Parameters<typeof getStyle>[0]
 
 interface OptionsI {
   // NOTE: this type is needed as the type inferene will be propagated up
@@ -86,10 +82,3 @@ export const getStyle = (options?: OptionsI) => ({
     }
   }
 })
-
-export function useStyle(props: ExtendingStyleProps) {
-  const options: OptionsI = props;
-  // here you can compute more options, but remember to update
-  // the useMemo deps if you use some prop within style.
-  return useMemo(() => mergeStylesFromProp(props, getStyle(props)), [])
-}

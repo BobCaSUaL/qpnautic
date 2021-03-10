@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { ValueOf } from "react-native-gesture-handler/lib/typescript/typeUtils";
 
 export type PropStylesI<StyleT extends {}> = {
@@ -7,7 +8,13 @@ export type MergedStylesI<StyleT extends {}> = {
   [K in keyof StyleT]: StyleT[K] | Array<StyleT[K]>
 }
 
-export function mergeStylesFromProp<StyleT extends {}>(
+export type ExtendingStylePropsT<getStyleT extends ({}) => any> = PropStylesI<ReturnType<getStyleT>> & Parameters<getStyleT>[0]
+
+export function _shallowEquals() {
+  return false
+}
+
+export function _mergeStylesFromProp<StyleT extends {}>(
   propStyles: PropStylesI<StyleT>,
   style: StyleT
 ): MergedStylesI<StyleT> {
@@ -23,4 +30,23 @@ export function mergeStylesFromProp<StyleT extends {}>(
   }
 
   return acc as MergedStylesI<StyleT>
+}
+
+export function useStylesheet<getStyleT extends ({}) => any>(
+  props: ExtendingStylePropsT<getStyleT>,
+  getStyle: getStyleT,
+  equalsPredicate: (
+    props: ExtendingStylePropsT<getStyleT>,
+    prevProps: ExtendingStylePropsT<getStyleT>
+  ) => boolean = _shallowEquals
+) {
+  const options: Parameters<getStyleT>[0] = props;
+  const val = useRef(_mergeStylesFromProp(props, getStyle(options)));
+  const prevProps = useRef({ ...props });
+
+  if (!equalsPredicate(props, prevProps.current)) {
+    val.current = _mergeStylesFromProp(props, getStyle(options));
+    prevProps.current = { ...props };
+  }
+  return val.current;
 }

@@ -1,12 +1,13 @@
 import { Icon } from 'native-base'
 import React from 'react'
 import { Text, View } from 'react-native'
+import { ExtendingStylePropsT, useStylesheet } from '../../utils/styles'
 import { Touchable } from '../Touchable/Touchable'
 import { TouchableHelperDescriptorI } from '../TouchableHelper'
 import { TouchableHelper } from '../TouchableHelper/TouchableHelper'
-import { ExtendingStyleProps, useStyle } from './useStyle'
+import { getStyle } from './useStyle'
 
-interface Props extends ExtendingStyleProps {
+interface Props extends ExtendingStylePropsT<typeof getStyle> {
   iconName: string
   labelText: string
   onPress: () => void
@@ -19,7 +20,7 @@ function lastOf<T>(elem: T | Array<T>): T {
 }
 
 export const TouchableIdol = React.memo((props: Props) => {
-  const styles = useStyle(props)
+  const styles = useStylesheet(props, getStyle);
   return (
     <Touchable
       rippleBackgroundAndroid={lastOf(styles.rippleBackgroundAndroid)}
