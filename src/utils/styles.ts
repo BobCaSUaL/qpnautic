@@ -32,6 +32,34 @@ export function _mergeStylesFromProp<StyleT extends {}>(
   return acc as MergedStylesI<StyleT>
 }
 
+/**
+ * Recompute the style if needed.
+ * 
+ * use case:
+ * ```
+ * // note that you must fistly define the getStyle
+ * 
+ * interface Props extends ExtendingStylePropsT<typeof getStyle> {
+ *   ....
+ * }
+ * 
+ * export const MyComponent = (props: Props) => {
+ *   const styles = useStylesheet(props, getStyle);
+ *   return (
+ *      // NOTE: this is evaluated as [getStyles(...).container, props.containerStyle]
+ *     <View style={styles.container}>
+ *       <View style={styles.contentContainer}>
+ *       </View> 
+ *     </View>
+ *   );
+ * }
+ * 
+ * ```
+ * 
+ * @param props - the component props (note: the component props must extends the type of this object)
+ * @param getStyle - the getStyle function (used also as basic source of type inference)
+ * @param equalsPredicate - the equality predicate. It defaults to shallowEquals.
+ */
 export function useStylesheet<getStyleT extends ({}) => any>(
   props: ExtendingStylePropsT<getStyleT>,
   getStyle: getStyleT,
