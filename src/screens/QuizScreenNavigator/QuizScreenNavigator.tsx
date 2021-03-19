@@ -14,7 +14,7 @@ const quizNavigatorOptions = {
 export const QuizScreenNavigator = (props: ScreenProps<{}>) => {
   return (
     <QuizContainer>
-      <QuizStack.Navigator>
+      <QuizStack.Navigator detachInactiveScreens>
         <QuizStack.Screen
           name="QuizQuestion"
           options={quizNavigatorOptions}
