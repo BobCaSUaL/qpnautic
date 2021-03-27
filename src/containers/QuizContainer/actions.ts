@@ -1,5 +1,5 @@
 import { actionCreatorFactory } from "../../utils/actions";
-import { Quiz } from "./reducers";
+import { Quiz, QuizOption } from "./type";
 
 export const QUIZ_LOADING_REQUESTED = '/digital/actions/QUIZ_LOADING_REQUESTED';
 export const QUIZ_LOADING_SUCCEEDED = '/digital/actions/QUIZ_LOADING_SUCCEEDED';
@@ -10,6 +10,11 @@ export const QUIZ_FOCUS_REQUESTED = '/digital/actions/QUIZ_FOCUS_REQUESTED';
 export const QUIZ_FOCUS_SUCCEEDED = '/digital/actions/QUIZ_FOCUS_SUCCEEDED';
 export const QUIZ_FOCUS_CANCELLED = '/digital/actions/QUIZ_FOCUS_CANCELLED';
 export const QUIZ_FOCUS_FAILED = '/digital/actions/QUIZ_FOCUS_FAILED';
+
+export const QUIZ_ANSWER_REQUESTED = '/digital/actions/QUIZ_ANSWER_REQUESTED';
+export const QUIZ_ANSWER_SUCCEEDED = '/digital/actions/QUIZ_ANSWER_SUCCEEDED';
+export const QUIZ_ANSWER_CANCELLED = '/digital/actions/QUIZ_ANSWER_CANCELLED';
+export const QUIZ_ANSWER_FAILED = '/digital/actions/QUIZ_ANSWER_FAILED';
 
 export const QUIZ_HELPER_SHOW = '/digital/actions/QUIZ_HELPER_SHOW';
 
@@ -39,6 +44,7 @@ export const quizLoadingFailed = actionCreatorFactory<Error, null>(QUIZ_LOADING_
 export interface QuizFocusMetaI {
   /**
    * The quiz number to focus on the store (under the computed value `_quizCurrent`)
+   * NOTE: the quiz number may be different from the QuizId (look at the reducer for specific implementation)
    */
   onNumber?: number
 }
@@ -64,3 +70,35 @@ export const focusCancelled = actionCreatorFactory<null, QuizFocusMetaI>(QUIZ_FO
  * @param payload - the error reported
  */
 export const focusFailed = actionCreatorFactory<Error, QuizFocusMetaI>(QUIZ_FOCUS_FAILED)
+
+
+export interface QuizAnswerMetaI {
+  /**
+   * The QuizId to be associated with the answer
+   */
+   onQuizId?: number
+}
+
+export interface QuizAnswerPayloadI extends QuizOption { }
+
+/**
+ * Requeste the apply the answer (aka option) on the specified quiz numer (in the meta)
+ */
+export const answerRequested = actionCreatorFactory<QuizAnswerPayloadI, QuizAnswerMetaI>(QUIZ_ANSWER_REQUESTED)
+
+/**
+ * The apply of the answer (aka option) on the specified quiz numer (in the meta) succeeded
+ */
+export const answerSucceeded = actionCreatorFactory<QuizAnswerPayloadI, QuizAnswerMetaI>(QUIZ_ANSWER_SUCCEEDED)
+
+/**
+ * The apply of the answer (aka option) on the specified quiz numer (in the meta) results in a cancellation
+ */
+export const answerCancelled = actionCreatorFactory<null, QuizAnswerMetaI>(QUIZ_ANSWER_CANCELLED)
+
+/**
+ * The apply of the answer (aka option) on the specified quiz numer (in the meta) has failed.
+ * 
+ * @param payload - the error reported
+ */
+export const answerFailed = actionCreatorFactory<Error, QuizAnswerMetaI>(QUIZ_ANSWER_FAILED)
