@@ -151,8 +151,6 @@ export const reducer = (
         break;
 
       case QUIZ_ANSWER_REQUESTED:
-        break;
-      case QUIZ_ANSWER_SUCCEEDED:
         if ((action.meta as QuizAnswerMetaI)?.onQuizId)
         draft.quizAnswers = [
           ...draft.quizAnswers.filter(quizAnswers => quizAnswers.key !== (action.meta as QuizAnswerMetaI)?.onQuizId),
@@ -161,6 +159,8 @@ export const reducer = (
             value: (action.payload as QuizAnswerPayloadI).id,
           }
         ]
+        break;
+      case QUIZ_ANSWER_SUCCEEDED:
         break;
       case QUIZ_ANSWER_CANCELLED:
         draft.quizFocused = draft.quizFocused;
