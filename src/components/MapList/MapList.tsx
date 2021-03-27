@@ -9,7 +9,7 @@ interface Props<P> {
   items: Array<P & { key?: string }>
   component: React.ComponentType<P>
   onItemPress?: (event: GestureResponderEvent | undefined, item: P) => void
-  style?: StyleProp<ViewStyle>
+  containerStyle?: StyleProp<ViewStyle>
   listItemStyle?: StyleProp<ViewStyle>
 }
 
@@ -18,11 +18,12 @@ export function MapList<P>({
   items,
   component: Component,
   onItemPress,
+  containerStyle,
   listItemStyle,
   ...restProps
 }: Props<P>) {
   return (
-    <RootComponent {...restProps}>
+    <RootComponent {...restProps} style={containerStyle}>
       {items.map((item, index) => (
         <MapListItem
           key={item.key || index}
