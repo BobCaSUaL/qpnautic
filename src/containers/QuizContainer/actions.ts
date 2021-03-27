@@ -88,6 +88,7 @@ export const answerRequested = actionCreatorFactory<QuizAnswerPayloadI, QuizAnsw
 
 /**
  * The apply of the answer (aka option) on the specified quiz numer (in the meta) succeeded
+ * The dispatch of this action may also trigger a navigation to the next quiz (Check in the saga for specific implementation)
  */
 export const answerSucceeded = actionCreatorFactory<QuizAnswerPayloadI, QuizAnswerMetaI>(QUIZ_ANSWER_SUCCEEDED)
 

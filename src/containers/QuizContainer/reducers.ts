@@ -41,6 +41,12 @@ export declare interface QuizState {
    */
   _quizCurrent: Readonly<Quiz | undefined>,
   /**
+   * The current #quizFocused number.
+   * NOTE: this may be diffent from the QuizId or the Quiz index within the quizList
+   * -1 is returned if there are not any quizFocused.
+   */
+   _quizCurrentNumber: Readonly<number | -1>
+  /**
    * The current selected anwer. It may be undefined.
    */
    _quizCurrentAnswer: Readonly<QuizOption| undefined>
@@ -73,6 +79,9 @@ export const initialState: QuizState = {
   quizAnswers: [],
   get _quizCurrent() {
     return this.quizList[this.getQuizIndexForId(this.quizFocused)];
+  },
+  get _quizCurrentNumber() {
+    return this.getQuizIndexForId(this.quizFocused);
   },
   get _quizCurrentAnswer() {
     if (this._quizCurrent === undefined) {

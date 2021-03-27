@@ -1,4 +1,6 @@
-import { takeLatest, cancelled, delay, put, select } from 'redux-saga/effects';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { takeLatest, cancelled, delay, put, select, getContext } from 'redux-saga/effects';
 import { Action } from '../../utils/actions';
 import {
   answerCancelled,
@@ -15,6 +17,7 @@ import {
   quizLoadingRequested,
   quizLoadingSucceeded,
   QUIZ_ANSWER_REQUESTED,
+  QUIZ_ANSWER_SUCCEEDED,
   QUIZ_FOCUS_REQUESTED,
   QUIZ_LOADING_REQUESTED,
 } from './actions'
@@ -62,9 +65,20 @@ export function* quizAnswerRequested(action: Action<QuizAnswerPayloadI, QuizAnsw
   }
 }
 
+export function* quizAnswerSucceeded(action: Action<QuizAnswerPayloadI, QuizAnswerMetaI>) {
+  try {
+    const navigation: StackNavigationProp<ParamListBase> = yield getContext('navigation');
+    const quizCurrentNumber: number = yield select((state: QuizState) => state._quizCurrentNumber);
+    navigation.replace('QuizQuestion', { number: quizCurrentNumber + 1})
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export function* mainSaga() {
   yield takeLatest(QUIZ_LOADING_REQUESTED, quizLoadingSaga)
   yield takeLatest(QUIZ_FOCUS_REQUESTED, quizFocusRequested)
   yield takeLatest(QUIZ_ANSWER_REQUESTED, quizAnswerRequested)
+  yield takeLatest(QUIZ_ANSWER_SUCCEEDED, quizAnswerSucceeded)
   yield put(quizLoadingRequested());
 }
