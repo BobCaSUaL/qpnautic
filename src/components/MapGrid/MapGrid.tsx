@@ -1,9 +1,10 @@
 import { Col, Grid, Row } from 'native-base';
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native';
+import { StyleProp, ViewProps, ViewStyle } from 'react-native';
 
 
 interface Props<P> {
+  as?: React.ComponentType<ViewProps>
   items: Array<Array<P & { key?: string }> & { key?: string }>
   component: React.ComponentType<P>
   style?: StyleProp<ViewStyle>
@@ -11,16 +12,16 @@ interface Props<P> {
   rowStyle?: StyleProp<ViewStyle>
 }
 
-export function MapGrid<P>(props: Props<P>) {
-  const {
-    items,
-    component: Component,
-    colStyle,
-    rowStyle,
-    ...restProps
-  } = props;
+export function MapGrid<P>({
+  as: RootComponent = Grid,
+  items,
+  component: Component,
+  colStyle,
+  rowStyle,
+  ...restProps
+}: Props<P>) {
   return (
-    <Grid {...restProps}>
+    <RootComponent {...restProps}>
       {items.map((column, index) => (
         <Col key={column.key || index} style={colStyle}>
           {column.map((row, index) => (
@@ -30,6 +31,6 @@ export function MapGrid<P>(props: Props<P>) {
           ))}
         </Col>
       ))}
-    </Grid>
+    </RootComponent>
   )
 }
