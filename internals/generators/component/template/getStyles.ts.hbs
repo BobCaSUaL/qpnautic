@@ -1,0 +1,71 @@
+import { StyleProp, StyleSheet, TextStyle, TouchableNativeFeedback, ViewStyle } from "react-native"
+
+interface OptionsI {
+  // NOTE: this type is needed as the type inferene will be propagated up
+  // to the components props thought the ExtendingStyleProps
+  
+  // /**
+  //  * The doc
+  //  */
+  // thePropertyToBeUsedInStyle: ThePropertyType
+}
+
+export const getStyle = (options?: OptionsI) => ({
+  ...StyleSheet.create({
+    /* *** static stylesheet styles *** */
+    container: {
+      width: '100%',
+      height: '100%',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      // NOTE cast to ViewStyle: the type inference will be propagated
+      // up to the components props (throught the ExtendingStyleProps
+      // where you can specify a `containerStyle` that will be merged there
+    } as ViewStyle,
+    // Place all static styles there
+  }),
+
+  /* *** non stylesheet style-like properties (The object, not the component ones 😅) *** */
+  collapsable: false,
+
+  /* *** Comptuted stylesheet proerties *** */
+  /* Maybe mainly from options, but also used to create a hierarchy of styles from the stylesheet */
+  
+  get iconPrimary(): StyleProp<TextStyle> {
+    return [this.iconBase, this.colorPrimary];
+  },
+  get iconSecondary(): StyleProp<TextStyle> {
+    return [this.iconBase, this.colorSecondary];
+  },
+  get iconAccent(): StyleProp<TextStyle> {
+    return [this.iconBase, this.colorAccent];
+  },
+  get icon(): StyleProp<TextStyle> {
+    if (options?.accent) {
+      return this.iconAccent
+    } else if (options?.secondary) {
+      return this.iconSecondary;
+    } else /* if (options?.primary) or default */ {
+      return this.iconPrimary;
+    }
+  },
+  get labelTextPrimary(): StyleProp<TextStyle> {
+    return [this.labelTextBase, this.colorPrimary];
+  },
+  get labelTextSecondary(): StyleProp<TextStyle> {
+    return [this.labelTextBase, this.colorSecondary];
+  },
+  get labelTextAccent(): StyleProp<TextStyle> {
+    return [this.labelTextBase, this.colorAccent];
+  },
+  get labelText(): StyleProp<TextStyle> {
+    if (options?.accent) {
+      return this.labelTextAccent
+    } else if (options?.secondary) {
+      return this.labelTextSecondary;
+    } else /* if (options?.primary) or default */ {
+      return this.labelTextPrimary;
+    }
+  }
+})

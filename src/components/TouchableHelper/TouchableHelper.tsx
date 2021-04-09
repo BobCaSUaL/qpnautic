@@ -1,8 +1,9 @@
 import { Icon } from 'native-base';
 import React, { memo, useContext } from 'react';
 import { GestureResponderEvent } from 'react-native';
+import { AppContext } from '../../containers/AppContainer';
+import { appHelperShow } from '../../containers/AppContainer/actions';
 import { Touchable } from '../Touchable/Touchable';
-import { TouchableHelperContext } from './context';
 import { TouchableHelperDescriptorI } from './types';
 
 interface Props<T> {
@@ -11,10 +12,10 @@ interface Props<T> {
 
 export const TouchableHelper = memo(
   function _TouchableHelper<T extends TouchableHelperDescriptorI<H>, H>(props: Props<T>) {
-    const { handleTouchableHelpPress } = useContext(TouchableHelperContext)
+    const { appDispatch, appState } = useContext(AppContext)
     return (
       <Touchable onPress={(event?: GestureResponderEvent) => {
-        handleTouchableHelpPress(event, props.item)
+        appDispatch(appHelperShow(null, props.item))
       }}>
         <Icon name="help-circle"/>
       </Touchable>
