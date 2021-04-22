@@ -1,6 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { takeLatest, cancelled, delay, put, select, getContext } from 'redux-saga/effects';
+import { takeLatest, cancelled, delay, put, select, getContext, take } from 'redux-saga/effects';
 import { Action } from '../../utils/actions';
 import {
   answerCancelled,

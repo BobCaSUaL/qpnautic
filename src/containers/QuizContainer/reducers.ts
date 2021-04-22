@@ -33,7 +33,9 @@ export declare interface QuizState {
    * A QuizId to QuizOptionId provided aswer list
    */
   quizAnswers: Array<{
+    /** The QuizId */
     key: QuizId,
+    /** The QuizOptionId */
     value: QuizOptionId,
   }>,
   /**
@@ -49,7 +51,14 @@ export declare interface QuizState {
   /**
    * The current selected anwer. It may be undefined.
    */
-   _quizCurrentAnswer: Readonly<QuizOption| undefined>
+  _quizCurrentAnswer: Readonly<QuizOption | undefined>
+  /**
+   * Count of the successfull (correct) and failed (incorrect) answers
+   */
+   _resultsCounts: Readonly<{
+     succeeded: number,
+     failed: number
+   }>,
   /**
    * A property to identify the first quiz loaded succeeded action
    * It would be initialized equals to false, than evaluated after the first QUIZ_LOADING_SUCCEEDED
@@ -94,6 +103,17 @@ export const initialState: QuizState = {
     }
     return this._quizCurrent?.options.find(option => option.id === currentAnswerItem?.value)
   },
+  get _resultsCounts() {
+    return this.quizAnswers.reduce((acc, answer) => {
+      const quizIndex = this.getQuizIndexForId(answer.key);
+      if (this.quizList[quizIndex].correctOption === answer.value) {
+        acc.succeeded += 1;
+      } else {
+        acc.failed += 1;
+      }
+      return acc;
+    }, { succeeded: 0, failed: 0});
+  },
   isQuizLoaded: false,
   error: null,
   loading: 0,
@@ -118,9 +138,7 @@ export const reducer = (
   action: Action<PayloadType, MetaType>
 ): QuizState => shallowMutate(
   state,
-  draft => {
-    console.debug(`QuizContainer - ${action.type}`, action, draft);
-  
+  draft => {  
     switch (action.type) {
       case QUIZ_LOADING_REQUESTED:
         draft.loading = draft.loading + 1;
