@@ -26,6 +26,10 @@ export declare interface QuizState {
    */
   quizList: Array<Quiz>,
   /**
+   * The quiz list lenght
+   */
+  _quizListLength: Readonly<number>
+  /**
    * The current focused QuizId
    */
   quizFocused: QuizId,
@@ -75,6 +79,11 @@ export declare interface QuizState {
 
   getQuizIndexForId(id: QuizId): number,
   getQuizIdForIndex(index: number): QuizId,
+  /**
+   * Get a unique random next quiz index. If you have replied to all quizes
+   * than -1 is returned.
+   */
+   getQuizNextIndex(): number
 }
 
 export declare interface QuizContextValue {
@@ -84,6 +93,9 @@ export declare interface QuizContextValue {
 
 export const initialState: QuizState = {
   quizList: [],
+  get _quizListLength() {
+    return this.quizList.length;
+  },
   quizFocused: -1,
   quizAnswers: [],
   get _quizCurrent() {
@@ -125,6 +137,24 @@ export const initialState: QuizState = {
   getQuizIdForIndex(index: number) {
     if (index < 0) return -1;
     return index + 1;
+  },
+  getQuizNextIndex() {
+    console.log('getQuizNextIndex')
+    const quizListLength = this._quizListLength;
+    const quizAnswers = this.quizAnswers;
+    if (quizListLength <= 0) return -1;
+    if (quizAnswers.length >= quizListLength) return -1;
+
+    let nextQuizIndex: number = Math.round(Math.random() * quizListLength) % quizListLength;
+    do {
+      let quizAnswersIndex = quizAnswers.findIndex(
+        (answer) => answer.key === this.getQuizIdForIndex(nextQuizIndex)
+      );
+      if (quizAnswersIndex < 0) {
+        return nextQuizIndex;
+      };
+      nextQuizIndex = nextQuizIndex +1 % quizListLength;
+    } while(true);
   },
 };
 

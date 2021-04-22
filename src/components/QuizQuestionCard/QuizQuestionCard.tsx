@@ -1,4 +1,4 @@
-import { Body, Card, CardItem, Left, Radio, Right, Text, View } from 'native-base';
+import { Body, Card, CardItem, Icon, Left, Radio, Right, Text, View } from 'native-base';
 import React, { SyntheticEvent } from 'react';
 import { Quiz, QuizOption } from '../../containers/QuizContainer/type';
 import { ExtendingStylePropsT, useStylesheet } from '../../utils/styles';
@@ -37,9 +37,7 @@ export const QuizQuestionCard = (props: Props) => {
           onItemPress={onAnswer}
         />
       </CardItem>
-      <CardItem footer>
-        <Text>GeekyAnts</Text>
-      </CardItem>
+      <CardItem footer></CardItem>
     </Card>
   )
 }

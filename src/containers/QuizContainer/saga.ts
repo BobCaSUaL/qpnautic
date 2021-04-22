@@ -1,6 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { takeLatest, cancelled, delay, put, select, getContext, take } from 'redux-saga/effects';
+import { takeLatest, cancelled, delay, put, select, getContext, take, race } from 'redux-saga/effects';
 import { Action } from '../../utils/actions';
 import {
   answerCancelled,
@@ -19,7 +19,10 @@ import {
   QUIZ_ANSWER_REQUESTED,
   QUIZ_ANSWER_SUCCEEDED,
   QUIZ_FOCUS_REQUESTED,
+  QUIZ_LOADING_CANCELLED,
+  QUIZ_LOADING_FAILED,
   QUIZ_LOADING_REQUESTED,
+  QUIZ_LOADING_SUCCEEDED,
 } from './actions'
 import { QuizState } from './reducers';
 import { Quiz } from './type';
@@ -39,11 +42,26 @@ export function* quizLoadingSaga(action: Action<null, null>) {
 
 export function* quizFocusRequested(action: Action<null, QuizFocusMetaI>) {
   try {
-    const quizList: Quiz[] = yield select((state: QuizState) => state.quizList);
-    if (quizList.length <= 0) {
+    let quizListLength: number = yield select((state: QuizState) => state._quizListLength);
+    if (quizListLength <= 0) {
       yield put(quizLoadingRequested());
+      const [, failed, cancelled]: [unknown, Action<Error, {}>, Action<null, {}>] = yield race([
+        take(QUIZ_LOADING_SUCCEEDED),
+        take(QUIZ_LOADING_FAILED),
+        take(QUIZ_LOADING_CANCELLED),
+      ]);
+      if (failed) throw failed.payload;
+      if (cancelled) console.warn(`Dependency flow '$QUIZ_LOADING_*' has been cancelled`);
+      quizListLength = yield select((state: QuizState) => state._quizListLength);
     }
-    yield put(focusSucceeded(action.meta));
+    let nextNumber = action.meta.onNumber;
+    if (nextNumber === undefined) {
+      nextNumber = yield select((state: QuizState) => state.getQuizNextIndex());
+    }
+    yield put(focusSucceeded({
+      ...action.meta,
+      onNumber: nextNumber,
+    }));
   } catch(error) {
     yield put (focusFailed(action.meta, error));
   } finally {
@@ -68,8 +86,9 @@ export function* quizAnswerRequested(action: Action<QuizAnswerPayloadI, QuizAnsw
 export function* quizAnswerSucceeded(action: Action<QuizAnswerPayloadI, QuizAnswerMetaI>) {
   try {
     const navigation: StackNavigationProp<ParamListBase> = yield getContext('navigation');
-    const quizCurrentNumber: number = yield select((state: QuizState) => state._quizCurrentNumber);
-    navigation.replace('QuizQuestion', { number: quizCurrentNumber + 1})
+    const nextQuizNumber: number = yield select((state: QuizState) => state.getQuizNextIndex());
+  
+    navigation.replace('QuizQuestion', { number: nextQuizNumber })
   } catch (error) {
     console.error(error);
   }

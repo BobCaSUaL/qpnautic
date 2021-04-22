@@ -1,5 +1,5 @@
 import { Text, View } from 'native-base';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import QuizQuestionCard from '../../components/QuizQuestionCard';
 import QuizResultBar from '../../components/QuizResultBar';
 import { quizActions, QuizContext } from '../../containers/QuizContainer';
@@ -9,8 +9,8 @@ import { ScreenProps } from '../types';
 export const QuizQuestionScreen = (props: ScreenProps<{ number: number }>) => {
   const { quizDispatch, quizState } = useContext(QuizContext);
 
-  const quizNumber = props.route.params?.number ?? 0;
-  const quizCurrent = quizState.quizList[quizNumber] as Quiz | undefined;
+  const quizNumber = props.route.params?.number;
+  const quizCurrent = quizState._quizCurrent;
   const quizCurrentAnswer = quizState._quizCurrentAnswer;  // evaluated only after focusRequested
   const { succeeded: succeededCount, failed: failedCount } = quizState._resultsCounts;
 
